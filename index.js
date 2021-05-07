@@ -1,7 +1,7 @@
 const Promise = require('bluebird');
 const path = require('path');
 
-const { actions, fs, log, selectors, util } = require('vortex-api');
+const { fs, util } = require('vortex-api');
 
 const BMS_SCRIPT = path.join(__dirname, 'rev_pak_unpack.bms');
 const INVAL_SCRIPT = path.join(__dirname, 'rev_pak_invalidate.bms');
@@ -12,12 +12,11 @@ const NATIVES_DIR = 'natives' + path.sep;
 const STEAM_DLL = 'steam_api64.dll';
 const GAME_PAK_FILE = 're_chunk_000.pak';
 const GAME_ID = 'residentevilvillage';
-const STEAM_ID = 'dunno yet';
+const STEAM_ID = '1196590';
 
 function findGame() {
-  return undefined;
-  // return util.steam.findByAppId(STEAM_ID.toString())
-  //   .then(game => game.gamePath);
+  return util.steam.findByAppId(STEAM_ID)
+    .then(game => game.gamePath);
 }
 
 function prepareForModding(discovery, api) {
@@ -79,6 +78,7 @@ async function installContent(files,
 }
 
 function main(context) {
+  context.requireVersion('>=1.4.12');
   context.requireExtension('re-engine-wrapper');
   context.registerGame({
     id: GAME_ID,
@@ -88,8 +88,8 @@ function main(context) {
     mergeMods: true,
     queryPath: findGame,
     queryModPath: () => '.',
-    executable: () => 're8demo.exe',
-    requiredFiles: ['re8demo.exe', GAME_PAK_FILE],
+    executable: () => 're8.exe',
+    requiredFiles: ['re8.exe', GAME_PAK_FILE],
     //requiresLauncher,
     environment: {
       SteamAPPId: STEAM_ID.toString(),

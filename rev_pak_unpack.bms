@@ -3,7 +3,7 @@ idstring "KPKA"
 get VERSION long
 get FILES long
 get DUMMY0 long
-set MAX_OFFSET longlong 23742743266
+set MAX_OFFSET longlong 29529001984
 
 for i = 0 < FILES
   get NAME_CRC_L long
